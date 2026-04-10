@@ -6,6 +6,43 @@
 <style>
   body { margin:0; overflow:hidden; background:black; touch-action:none; }
 
+  #mobile-warning {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #050505 60%, #000000 100%);
+    color: #f3f3f3;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+
+  #mobile-warning .warning-card {
+    max-width: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    padding: 22px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(2px);
+  }
+
+  #mobile-warning h1 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    letter-spacing: 0.4px;
+  }
+
+  #mobile-warning p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
   #webcam {
     position: fixed;
     left: 14px;
@@ -21,11 +58,31 @@
     pointer-events: none;
     transform: scaleX(-1);
   }
+
+  @media (max-width: 768px) {
+    canvas {
+      display: none !important;
+    }
+
+    #webcam {
+      display: none;
+    }
+
+    #mobile-warning {
+      display: flex;
+    }
+  }
 </style>
 </head>
 <body>
 
 <video id="webcam" autoplay playsinline muted></video>
+<div id="mobile-warning">
+  <div class="warning-card">
+    <h1>Desktop Only</h1>
+    <p>Astrophage sementara hanya tersedia untuk desktop. Silakan buka lewat laptop atau PC.</p>
+  </div>
+</div>
 
 <script type="importmap">
 {
@@ -41,6 +98,8 @@ import { EffectComposer } from "https://cdn.jsdelivr.net/npm/three@0.160/example
 import { RenderPass } from "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/postprocessing/OutputPass.js";
+
+if (!window.matchMedia("(max-width: 768px)").matches) {
 
 const scene = new THREE.Scene();
 
@@ -477,6 +536,7 @@ window.addEventListener("resize",()=>{
   composer.setSize(innerWidth, innerHeight);
   bloomPass.setSize(innerWidth, innerHeight);
 });
+}
 </script>
 </body>
 </html>
